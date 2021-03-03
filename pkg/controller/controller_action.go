@@ -333,7 +333,7 @@ func (c *controller) reconcileServiceActionDelete(action *v1beta1.ServiceAction)
 	response, err := brokerClient.Unact(request)
 	if err != nil {
 		msg := fmt.Sprintf(
-			`Error unbinding from %s: %s`, prettyBrokerName, err,
+			`Error unaction from %s: %s`, prettyBrokerName, err,
 		)
 		readyCond := newServiceActionReadyCondition(v1beta1.ConditionUnknown, errorUnbindCallReason, msg)
 
@@ -362,7 +362,7 @@ func (c *controller) isServiceActionStatusInitialized(action *v1beta1.ServiceAct
 	return !reflect.DeepEqual(action.Status, emptyStatus)
 }
 
-// handleServiceBindingReconciliationError is a helper function that handles on
+// handleServiceActionReconciliationError is a helper function that handles on
 // error whether the error represents an operation error and should update the
 // ServiceBinding resource.
 func (c *controller) handleServiceActionReconciliationError(action *v1beta1.ServiceAction, err error) error {
@@ -423,7 +423,7 @@ func newServiceActionFailedCondition(status v1beta1.ConditionStatus, reason, mes
 	}
 }
 
-// processServiceBindingOperationError handles the logging and updating of a
+// processServiceActionOperationError handles the logging and updating of a
 // ServiceBinding that hit a retryable error during reconciliation.
 func (c *controller) processServiceActionOperationError(action *v1beta1.ServiceAction, readyCond *v1beta1.ServiceActionCondition) error {
 	c.recorder.Event(action, corev1.EventTypeWarning, readyCond.Reason, readyCond.Message)
