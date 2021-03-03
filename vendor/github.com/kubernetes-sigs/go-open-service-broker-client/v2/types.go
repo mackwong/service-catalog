@@ -570,6 +570,31 @@ type BindResponse struct {
 	OperationKey *OperationKey `json:"operation,omitempty"`
 }
 
+// UnactionRequest represents a request to unbind a particular binding.
+type UnactionRequest struct {
+	// InstanceID is the ID of the instance the binding is for.
+	InstanceID string `json:"instance_id"`
+	// BindingID is the ID of the binding to delete.
+	ActionID string `json:"action_id"`
+	// AcceptsIncomplete requires a client API version >= 2.14.
+	//
+	// AcceptsIncomplete indicates whether the client can accept asynchronous
+	// unbinding. If the broker cannot fulfill a request synchronously and
+	// AcceptsIncomplete is set to false, the broker will reject the request. A
+	// broker may choose to response to a request with AcceptsIncomplete set to
+	// true either synchronously or asynchronously.
+	AcceptsIncomplete bool `json:"accepts_incomplete"`
+	// ServiceID is the ID of the service the instance was provisioned from.
+	ServiceID string `json:"service_id"`
+	// PlanID is the ID of the plan the instance was provisioned from.
+	PlanID string `json:"plan_id"`
+	// OriginatingIdentity requires a client API version >= 2.13.
+	//
+	// OriginatingIdentity is the identity on the platform of the user making
+	// this request.
+	OriginatingIdentity *OriginatingIdentity `json:"originatingIdentity,omitempty"`
+}
+
 // UnbindRequest represents a request to unbind a particular binding.
 type UnbindRequest struct {
 	// InstanceID is the ID of the instance the binding is for.
@@ -593,6 +618,20 @@ type UnbindRequest struct {
 	// OriginatingIdentity is the identity on the platform of the user making
 	// this request.
 	OriginatingIdentity *OriginatingIdentity `json:"originatingIdentity,omitempty"`
+}
+
+// UnbindResponse represents a broker's response to an UnbindRequest.
+type UnactionResponse struct {
+	// Async requires a client API version >= 2.14.
+	//
+	// Async indicates whether the broker is handling the unbind request
+	// asynchronously.
+	Async bool `json:"async"`
+	// OperationKey requires a client API version >= 2.14.
+	//
+	// OperationKey is an extra identifier supplied by the broker to identify
+	// asynchronous operations.
+	OperationKey *OperationKey `json:"operation,omitempty"`
 }
 
 // UnbindResponse represents a broker's response to an UnbindRequest.

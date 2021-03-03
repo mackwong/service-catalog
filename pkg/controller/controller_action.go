@@ -24,6 +24,7 @@ import (
 	"github.com/kubernetes-sigs/service-catalog/pkg/pretty"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"k8s.io/apimachinery/pkg/util/sets"
 	"net"
 	"reflect"
 
@@ -36,8 +37,12 @@ const (
 	errorActionCallReason              string = "ActionCallFailed"
 	errorServiceActionOrphanMitigation string = "ServiceActionNeedsOrphanMitigation"
 
-	asyncActionReason  string = "Acting"
-	asyncActionMessage string = "The action is being created asynchronously"
+	asyncActionReason    string = "Acting"
+	asyncActionMessage   string = "The action is being created asynchronously"
+	asyncUnactionReason  string = "Unaction"
+	asyncUnactionMessage string = "The action is being deleted asynchronously"
+
+	successUnactionReason string = "UnactionSuccessfully"
 )
 
 // Cluster service plan handlers and control-loop
@@ -239,7 +244,113 @@ func (c *controller) reconcileServiceActionAdd(action *v1beta1.ServiceAction) er
 }
 
 func (c *controller) reconcileServiceActionDelete(action *v1beta1.ServiceAction) error {
-	return nil
+	var err error
+	pcb := pretty.NewActionContextBuilder(action)
+
+	if action.DeletionTimestamp == nil && !action.Status.OrphanMitigationInProgress {
+		// nothing to do...
+		return nil
+	}
+
+	if finalizers := sets.NewString(action.Finalizers...); !finalizers.Has(v1beta1.FinalizerServiceCatalog) {
+		return nil
+	}
+
+	klog.V(4).Info(pcb.Message("Processing Delete"))
+
+	action = action.DeepCopy()
+
+	if err := c.ejectServiceAction(action); err != nil {
+		msg := fmt.Sprintf(`Error ejecting action. Error deleting secret: %s`, err)
+		readyCond := newServiceActionReadyCondition(v1beta1.ConditionFalse, errorEjectingBindReason, msg)
+		return c.processServiceActionOperationError(action, readyCond)
+	}
+
+	if action.DeletionTimestamp == nil {
+		if action.Status.OperationStartTime == nil {
+			now := metav1.Now()
+			action.Status.OperationStartTime = &now
+		}
+	} else {
+		if action.Status.CurrentOperation != v1beta1.ServiceActionOperationUnAction {
+			action, err = c.recordStartOfServiceActionOperation(action, v1beta1.ServiceActionOperationUnAction)
+			if err != nil {
+				// There has been an update to the action. Start reconciliation
+				// over with a fresh view of the action.
+				return err
+			}
+			// recordStartOfServiceBindingOperation has updated the action, so we need to continue in the next iteration
+			return nil
+		}
+	}
+
+	instance, err := c.instanceLister.ServiceInstances(action.Namespace).Get(action.Spec.InstanceRef.Name)
+	if err != nil {
+		msg := fmt.Sprintf(
+			`References a non-existent %s "%s/%s"`,
+			pretty.ServiceInstance, action.Namespace, action.Spec.InstanceRef.Name,
+		)
+		readyCond := newServiceActionReadyCondition(v1beta1.ConditionFalse, errorNonexistentServiceInstanceReason, msg)
+		return c.processServiceActionOperationError(action, readyCond)
+	}
+
+	if instance.Status.AsyncOpInProgress {
+		msg := fmt.Sprintf(
+			`trying to unbind to %s "%s/%s" that has ongoing asynchronous operation`,
+			pretty.ServiceInstance, action.Namespace, action.Spec.InstanceRef.Name,
+		)
+		readyCond := newServiceActionReadyCondition(v1beta1.ConditionFalse, errorWithOngoingAsyncOperationReason, msg)
+		return c.processServiceActionOperationError(action, readyCond)
+	}
+
+	var brokerClient osb.Client
+	var prettyBrokerName string
+
+	if instance.Spec.ClusterServiceClassSpecified() {
+
+		if instance.Spec.ClusterServiceClassRef == nil {
+			return fmt.Errorf("ClusterServiceClass reference for Instance has not been resolved yet")
+		}
+		if instance.Status.ExternalProperties == nil || instance.Status.ExternalProperties.ClusterServicePlanExternalID == "" {
+			return fmt.Errorf("ClusterServicePlanExternalID for Instance has not been set yet")
+		}
+
+		serviceClass, brokerName, bClient, err := c.getClusterServiceClassAndClusterServiceBrokerForServiceAction(instance, action)
+		if err != nil {
+			return c.handleServiceActionReconciliationError(action, err)
+		}
+
+		brokerClient = bClient
+		prettyBrokerName = pretty.FromServiceInstanceOfClusterServiceClassAtBrokerName(instance, serviceClass, brokerName)
+
+	}
+
+	request, err := c.prepareUnactionRequest(action, instance)
+	if err != nil {
+		return c.handleServiceActionReconciliationError(action, err)
+	}
+
+	response, err := brokerClient.Unact(request)
+	if err != nil {
+		msg := fmt.Sprintf(
+			`Error unbinding from %s: %s`, prettyBrokerName, err,
+		)
+		readyCond := newServiceActionReadyCondition(v1beta1.ConditionUnknown, errorUnbindCallReason, msg)
+
+		if c.reconciliationRetryDurationExceeded(action.Status.OperationStartTime) {
+			msg := "Stopping reconciliation retries, too much time has elapsed"
+			failedCond := newServiceActionReadyCondition(v1beta1.ConditionTrue, errorReconciliationRetryTimeoutReason, msg)
+			return c.processUnactionFailure(action, readyCond, failedCond)
+		}
+
+		return c.processServiceActionOperationError(action, readyCond)
+	}
+
+	if response.Async {
+		return c.processUnactionAsyncResponse(action, response)
+	}
+
+	return c.processUnactionSuccess(action)
 }
 
 func (c *controller) pollServiceAction(action *v1beta1.ServiceAction) error {
@@ -664,4 +775,155 @@ func (c *controller) beginPollingServiceAction(action *v1beta1.ServiceAction) er
 func (c *controller) requeueServiceActionForPoll(key string) error {
 	c.serviceActionQueue.Add(key)
 	return nil
+}
+
+func (c *controller) ejectServiceAction(action *v1beta1.ServiceAction) error {
+	var err error
+	pcb := pretty.NewActionContextBuilder(action)
+	klog.V(5).Info(pcb.Messagef(`Deleting Secret "%s/%s"`,
+		action.Namespace, action.Spec.SecretName,
+	))
+
+	if err = c.kubeClient.CoreV1().Secrets(action.Namespace).Delete(context.Background(), action.Spec.SecretName, metav1.DeleteOptions{}); err != nil && !apierrors.IsNotFound(err) {
+		return err
+	}
+
+	return nil
+}
+
+func (c *controller) prepareUnactionRequest(
+	action *v1beta1.ServiceAction, instance *v1beta1.ServiceInstance) (
+	*osb.UnactionRequest, error) {
+
+	var scExternalID string
+	var planExternalID string
+
+	if instance.Spec.ClusterServiceClassSpecified() {
+
+		serviceClass, err := c.getClusterServiceClassForServiceAction(instance, action)
+		if err != nil {
+			return nil, c.handleServiceActionReconciliationError(action, err)
+		}
+
+		scExternalID = serviceClass.Spec.ExternalID
+		planExternalID = instance.Status.ExternalProperties.ClusterServicePlanExternalID
+
+	}
+
+	request := &osb.UnactionRequest{
+		ActionID:          action.Spec.ExternalID,
+		InstanceID:        instance.Spec.ExternalID,
+		ServiceID:         scExternalID,
+		PlanID:            planExternalID,
+		AcceptsIncomplete: true,
+	}
+	return request, nil
+}
+
+// processUnactionFailure handles the logging and updating of a
+// ServiceBinding that hit a terminal failure during unbind
+// reconciliation.
+func (c *controller) processUnactionFailure(action *v1beta1.ServiceAction, readyCond, failedCond *v1beta1.ServiceActionCondition) error {
+	if failedCond == nil {
+		return fmt.Errorf("failedCond must not be nil")
+	}
+
+	if readyCond != nil {
+		setServiceActionCondition(action, v1beta1.ServiceActionConditionReady, v1beta1.ConditionUnknown, readyCond.Reason, readyCond.Message)
+		c.recorder.Event(action, corev1.EventTypeWarning, readyCond.Reason, readyCond.Message)
+	}
+
+	if action.Status.OrphanMitigationInProgress {
+		// replace Ready condition with orphan mitigation-related one.
+		msg := "Orphan mitigation failed: " + failedCond.Message
+		readyCond := newServiceActionReadyCondition(v1beta1.ConditionUnknown, errorOrphanMitigationFailedReason, msg)
+		setServiceActionCondition(action, v1beta1.ServiceActionConditionReady, readyCond.Status, readyCond.Reason, readyCond.Message)
+		c.recorder.Event(action, corev1.EventTypeWarning, readyCond.Reason, readyCond.Message)
+	} else {
+		setServiceActionCondition(action, v1beta1.ServiceActionConditionFailed, failedCond.Status, failedCond.Reason, failedCond.Message)
+		c.recorder.Event(action, corev1.EventTypeWarning, failedCond.Reason, failedCond.Message)
+	}
+
+	clearServiceActionCurrentOperation(action)
+	//action.Status.UnbindStatus = v1beta1.ServiceBindingUnbindStatusFailed
+
+	if _, err := c.updateServiceActionStatus(action); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+// ServiceBinding that received an asynchronous response from the broker when
+// requesting an unbind.
+func (c *controller) processUnactionAsyncResponse(action *v1beta1.ServiceAction, response *osb.UnactionResponse) error {
+	setServiceActionLastOperation(action, response.OperationKey)
+	setServiceActionCondition(action, v1beta1.ServiceActionConditionReady, v1beta1.ConditionFalse, asyncUnactionReason, asyncUnactionMessage)
+	action.Status.AsyncOpInProgress = true
+
+	if _, err := c.updateServiceActionStatus(action); err != nil {
+		return err
+	}
+
+	c.recorder.Event(action, corev1.EventTypeNormal, asyncUnactionReason, asyncUnactionMessage)
+	return c.beginPollingServiceAction(action)
+}
+
+// processUnbindSuccess handles the logging and updating of a ServiceBinding
+// that has successfully been deleted at the broker.
+func (c *controller) processUnactionSuccess(action *v1beta1.ServiceAction) error {
+	mitigatingOrphan := action.Status.OrphanMitigationInProgress
+
+	reason := successUnactionReason
+	msg := "The action was deleted successfully"
+	if mitigatingOrphan {
+		reason = successOrphanMitigationReason
+		msg = successOrphanMitigationMessage
+	}
+
+	setServiceActionCondition(action, v1beta1.ServiceActionConditionReady, v1beta1.ConditionFalse, reason, msg)
+	clearServiceActionCurrentOperation(action)
+	//action.Status.UnbindStatus = v1beta1.ServiceBindingUnbindStatusSucceeded
+
+	if mitigatingOrphan {
+		if _, err := c.updateServiceActionStatus(action); err != nil {
+			return err
+		}
+	} else {
+		// If part of a resource deletion request, follow-through to
+		// the graceful deletion handler in order to clear the finalizer.
+		if err := c.processServiceActionGracefulDeletionSuccess(action); err != nil {
+			return err
+		}
+	}
+
+	c.recorder.Event(action, corev1.EventTypeNormal, reason, msg)
+	return nil
+}
+
+// processServiceBindingGracefulDeletionSuccess handles the logging and
+// updating of a ServiceBinding that has successfully finished graceful
+// deletion.
+func (c *controller) processServiceActionGracefulDeletionSuccess(action *v1beta1.ServiceAction) error {
+	pcb := pretty.NewActionContextBuilder(action)
+
+	updatedBinding, err := c.updateServiceActionStatus(action)
+	if err != nil {
+		return fmt.Errorf("while updating status: %v", err)
+	}
+	klog.Info(pcb.Message("Status updated"))
+
+	toUpdate := updatedBinding.DeepCopy()
+	finalizers := sets.NewString(toUpdate.Finalizers...)
+	finalizers.Delete(v1beta1.FinalizerServiceCatalog)
+	toUpdate.Finalizers = finalizers.List()
+
+	_, err = c.serviceCatalogClient.ServiceActions(toUpdate.Namespace).Update(context.Background(), toUpdate, metav1.UpdateOptions{})
+	if err != nil {
+		return fmt.Errorf("while removing finalizer entry: %v", err)
+	}
+	klog.Info(pcb.Message("Cleared finalizer"))
+
+	return nil
+
 }
