@@ -36,8 +36,20 @@ func (c *FakeServicecatalogV1beta1) ClusterServiceClasses() v1beta1.ClusterServi
 	return &FakeClusterServiceClasses{c}
 }
 
+func (c *FakeServicecatalogV1beta1) ClusterServiceDescriptions() v1beta1.ClusterServiceDescriptionInterface {
+	return &FakeClusterServiceDescriptions{c}
+}
+
+func (c *FakeServicecatalogV1beta1) ClusterServiceExtensions() v1beta1.ClusterServiceExtensionInterface {
+	return &FakeClusterServiceExtensions{c}
+}
+
 func (c *FakeServicecatalogV1beta1) ClusterServicePlans() v1beta1.ClusterServicePlanInterface {
 	return &FakeClusterServicePlans{c}
+}
+
+func (c *FakeServicecatalogV1beta1) ServiceActions(namespace string) v1beta1.ServiceActionInterface {
+	return &FakeServiceActions{c, namespace}
 }
 
 func (c *FakeServicecatalogV1beta1) ServiceBindings(namespace string) v1beta1.ServiceBindingInterface {

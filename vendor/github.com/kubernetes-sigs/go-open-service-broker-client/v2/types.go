@@ -425,6 +425,45 @@ const (
 	StateFailed     LastOperationState = "failed"
 )
 
+// ActionRequest represents a request to create a new binding to an instance of
+// a service.
+type ActionRequest struct {
+	// BindingID is the ID of the new binding to create. The Open Service
+	// Broker API specification recommends using a GUID for this field.
+	ActionID string `json:"action_id"`
+	// InstanceID is the ID of the instance to bind to.
+	InstanceID string `json:"instance_id"`
+	// AcceptsIncomplete requires a client API version >= 2.14.
+	//
+	// AcceptsIncomplete indicates whether the client can accept asynchronous
+	// binding. If the broker cannot fulfill a request synchronously and
+	// AcceptsIncomplete is set to false, the broker will reject the request. A
+	// broker may choose to response to a request with AcceptsIncomplete set to
+	// true either synchronously or asynchronously.
+	AcceptsIncomplete bool `json:"accepts_incomplete"`
+	// ServiceID is the ID of the service the instance was provisioned from.
+	ServiceID string `json:"service_id"`
+	// PlanID is the ID of the plan the instance was provisioned from.
+	PlanID string `json:"plan_id"`
+	// Deprecated; use bind_resource.app_guid to send this value instead.
+	AppGUID *string `json:"app_guid,omitempty"`
+	// BindResource holds extra information about a binding. Optional, but
+	// it's complicated. TODO: clarify
+	BindResource *BindResource `json:"bind_resource,omitempty"`
+	// Parameters is configuration parameters for the binding. Optional.
+	Parameters map[string]interface{} `json:"parameters,omitempty"`
+	// Context requires a client API version >= 2.13.
+	//
+	// Context is platform-specific contextual information under which the
+	// service binding is to be created.
+	Context map[string]interface{} `json:"context,omitempty"`
+	// OriginatingIdentity requires a client API version >= 2.13.
+	//
+	// OriginatingIdentity is the identity on the platform of the user making
+	// this request.
+	OriginatingIdentity *OriginatingIdentity `json:"originatingIdentity,omitempty"`
+}
+
 // BindRequest represents a request to create a new binding to an instance of
 // a service.
 type BindRequest struct {
@@ -469,6 +508,36 @@ type BindRequest struct {
 type BindResource struct {
 	AppGUID *string `json:"appGuid,omitempty"`
 	Route   *string `json:"route,omitempty"`
+}
+
+// BindResponse represents a broker's response to a BindRequest.
+type ActionResponse struct {
+	// Async requires a client API version >= 2.14.
+	//
+	// Async indicates whether the broker is handling the bind request
+	// asynchronously.
+	Async bool `json:"async"`
+	// Credentials is a free-form hash of credentials that can be used by
+	// applications or users to access the service.
+	Credentials map[string]interface{} `json:"credentials,omitempty"`
+	// SyslogDrainURl is a URL to which logs must be streamed. CF-specific.
+	// May only be supplied by a service that declares a requirement for the
+	// 'syslog_drain' permission.
+	SyslogDrainURL *string `json:"syslog_drain_url,omitempty"`
+	// RouteServiceURL is a URL to which the platform must proxy requests to
+	// the application the binding is for. CF-specific. May only be supplied
+	// by a service that declares a requirement for the 'route_service'
+	// permission.
+	RouteServiceURL *string `json:"route_service_url,omitempty"`
+	// VolumeMounts is an array of configuration string for mounting volumes.
+	// CF-specific. May only be supplied by a service that declares a
+	// requirement for the 'volume_mount' permission.
+	VolumeMounts []interface{} `json:"volume_mounts,omitempty"`
+	// OperationKey requires a client API version >= 2.14.
+	//
+	// OperationKey is an extra identifier supplied by the broker to identify
+	// asynchronous operations.
+	OperationKey *OperationKey `json:"operation,omitempty"`
 }
 
 // BindResponse represents a broker's response to a BindRequest.

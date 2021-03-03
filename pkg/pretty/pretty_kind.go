@@ -30,6 +30,10 @@ const (
 	ServicePlan
 	ServiceBinding
 	ServiceInstance
+
+	ClusterServiceDescription
+	ClusterServiceExtension
+	ServiceAction
 )
 
 func (k Kind) String() string {
@@ -50,6 +54,12 @@ func (k Kind) String() string {
 		return "ServiceBinding"
 	case ServiceInstance:
 		return "ServiceInstance"
+	case ClusterServiceDescription:
+		return "ClusterServiceDescription"
+	case ClusterServiceExtension:
+		return "ClusterServiceExtension"
+	case ServiceAction:
+		return "ServiceAction"
 	default:
 		return ""
 	}

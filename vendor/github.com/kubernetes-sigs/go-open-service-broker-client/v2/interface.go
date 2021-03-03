@@ -194,6 +194,11 @@ type Client interface {
 	// application be deleted and returns information about the binding or an
 	// error. Unbind does a DELETE on the Broker's endpoint for the requested
 	// instance and binding IDs (/v2/service_instances/instance-id/service_bindings/binding-id).
+	Act(r *ActionRequest) (*ActionResponse, error)
+	// Bind requests that a binding between a service instance and an
+	// application be deleted and returns information about the binding or an
+	// error. Unbind does a DELETE on the Broker's endpoint for the requested
+	// instance and binding IDs (/v2/service_instances/instance-id/service_bindings/binding-id).
 	Unbind(r *UnbindRequest) (*UnbindResponse, error)
 	// GetBinding requires a client API version >= 2.14.
 	//

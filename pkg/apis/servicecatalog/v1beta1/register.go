@@ -71,6 +71,12 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 		&ServiceInstanceList{},
 		&ServiceBinding{},
 		&ServiceBindingList{},
+		&ClusterServiceDescription{},
+		&ClusterServiceDescriptionList{},
+		&ClusterServiceExtension{},
+		&ClusterServiceExtensionList{},
+		&ServiceAction{},
+		&ServiceActionList{},
 	)
 	metav1.AddToGroupVersion(scheme, SchemeGroupVersion)
 	scheme.AddKnownTypes(schema.GroupVersion{Version: "v1"}, &metav1.Status{})

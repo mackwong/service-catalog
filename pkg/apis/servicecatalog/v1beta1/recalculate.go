@@ -54,6 +54,11 @@ func (in *ServiceInstance) IsUserSpecifiedClassOrPlan() bool {
 	return in.Status.UserSpecifiedPlanName != "" && in.Status.UserSpecifiedClassName != ""
 }
 
+// RecalculatePrinterColumnStatusFields sets column status fields using status conditions
+func (b *ServiceAction) RecalculatePrinterColumnStatusFields() {
+	b.Status.LastConditionState = getServiceActionLastConditionState(b.Status)
+}
+
 func getServiceInstanceLastConditionState(status *ServiceInstanceStatus) string {
 	if len(status.Conditions) > 0 {
 		condition := status.Conditions[len(status.Conditions)-1]
@@ -77,6 +82,17 @@ func serviceBrokerLastConditionState(status *CommonServiceBrokerStatus) string {
 }
 
 func getServiceBindingLastConditionState(status ServiceBindingStatus) string {
+	if len(status.Conditions) > 0 {
+		condition := status.Conditions[len(status.Conditions)-1]
+		if condition.Status == ConditionTrue {
+			return string(condition.Type)
+		}
+		return condition.Reason
+	}
+	return ""
+}
+
+func getServiceActionLastConditionState(status ServiceActionStatus) string {
 	if len(status.Conditions) > 0 {
 		condition := status.Conditions[len(status.Conditions)-1]
 		if condition.Status == ConditionTrue {

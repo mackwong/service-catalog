@@ -1517,5 +1517,374 @@ func init() {
 		&ServicePlan{},
 		&ServicePlanList{},
 		&ClusterServicePlan{},
-		&ClusterServicePlanList{})
+		&ClusterServicePlanList{},
+		&ClusterServiceDescription{},
+		&ClusterServiceDescriptionList{},
+		&ClusterServiceExtension{},
+		&ClusterServiceExtensionList{},
+		&ServiceAction{},
+		&ServiceActionList{})
 }
+
+// 增加有关PLUS的定义
+
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ClusterServiceDescription represents an entity that provides
+// ClusterServiceClasses for use in the service catalog.
+// +k8s:openapi-gen=x-kubernetes-print-columns:custom-columns=NAME:.metadata.name,URL:.spec.url
+type ClusterServiceDescription struct {
+	metav1.TypeMeta `json:",inline"`
+
+	// Non-namespaced.  The name of this resource in etcd is in ObjectMeta.Name.
+	// More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	// Spec defines the behavior of the broker.
+	// +optional
+	Spec ClusterServiceDescriptionSpec `json:"spec,omitempty"`
+
+	// Status represents the current status of a broker.
+	// +optional
+	Status ClusterServiceDescriptionStatus `json:"status,omitempty"`
+}
+
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ClusterServiceDescriptionList is a list of ClusterServiceDescription.
+type ClusterServiceDescriptionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+
+	Items []ClusterServiceDescription `json:"items"`
+}
+
+// ClusterServiceBrokerSpec represents a description of a Broker.
+type ClusterServiceDescriptionSpec struct {
+	CommonServiceDescriptionSpec `json:",inline"`
+
+	// ClusterServiceBrokerName is the name of the ClusterServiceBroker
+	// that offers this ClusterServicePlan.
+	ClusterServiceBrokerName string `json:"clusterServiceBrokerName"`
+
+	// ClusterServiceClassRef is a reference to the service class that
+	// owns this plan.
+	ClusterServiceClassRef ClusterObjectReference `json:"clusterServiceClassRef"`
+}
+
+// ClusterServicePlanStatus represents status information about a
+// ClusterServicePlan.
+type ClusterServiceDescriptionStatus struct {
+	CommonServiceDescriptionStatus `json:",inline"`
+}
+
+// CommonServicePlanStatus represents status information about a
+// ClusterServicePlan or a ServicePlan.
+type CommonServiceDescriptionStatus struct {
+	// RemovedFromBrokerCatalog indicates that the broker removed the plan
+	// from its catalog.
+	RemovedFromBrokerCatalog bool `json:"removedFromBrokerCatalog"`
+}
+
+// CommonServicePlanSpec represents details that are shared by both
+// a ClusterServicePlan and a namespaced ServicePlan
+type CommonServiceDescriptionSpec struct {
+	// ExternalName is the name of this object that the Service Broker
+	// exposed this Service Plan as. Mutable.
+	ExternalName string `json:"externalName"`
+
+	// ExternalID is the identity of this object for use with the OSB API.
+	//
+	// Immutable.
+	ExternalID string `json:"externalID"`
+
+	// Description is a short description of this ServicePlan.
+	Description string `json:"description"`
+
+	// ExternalMetadata is a blob of information about the plan, meant to be
+	// user-facing content and display instructions.  This field may contain
+	// platform-specific conventional values.
+	ExternalMetadata *runtime.RawExtension `json:"externalMetadata,omitempty"`
+
+	// Currently, this field is ALPHA: it may change or disappear at any time
+	// and its data will not be migrated.
+	//
+	// ActionCreateParameterSchema is the schema for the parameters
+	// that may be supplied when exec an action on this plan.
+	ActionCreateParameterSchema *runtime.RawExtension `json:"instanceCreateParameterSchema,omitempty"`
+
+	// Currently, this field is ALPHA: it may change or disappear at any time
+	// and its data will not be migrated.
+	//
+	// ActionUpdateParameterSchema is the schema for the parameters
+	// that may be updated once an action has been provisioned on
+	// this plan. This field only has meaning if the corresponding ServiceClassSpec is
+	// PlanUpdatable.
+	ActionUpdateParameterSchema *runtime.RawExtension `json:"instanceUpdateParameterSchema,omitempty"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ClusterServiceExtensionList is a list of ClusterServicePlans.
+type ClusterServiceExtensionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+
+	Items []ClusterServiceExtension `json:"items"`
+}
+
+// +genclient
+// +genclient:nonNamespaced
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ClusterServiceExtension represents a tier of a ServiceClass.
+// +k8s:openapi-gen=x-kubernetes-print-columns:custom-columns=NAME:.metadata.name,EXTERNAL NAME:.spec.externalName,BROKER:.spec.clusterServiceBrokerName,CLASS:.spec.clusterServiceClassRef.name
+type ClusterServiceExtension struct {
+	metav1.TypeMeta `json:",inline"`
+
+	// Non-namespaced.  The name of this resource in etcd is in ObjectMeta.Name.
+	// More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	// Spec defines the behavior of the service plan.
+	// +optional
+	Spec ClusterServiceExtensionSpec `json:"spec,omitempty"`
+
+	// Status represents the current status of the service plan.
+	// +optional
+	Status ClusterServiceExtensionStatus `json:"status,omitempty"`
+}
+
+// ClusterServiceExtensionSpec represents details that are shared by both
+// a ClusterServicePlan and a namespaced ServicePlan
+type ClusterServiceExtensionSpec struct {
+	// ExternalName is the name of this object that the Service Broker
+	// exposed this Service Plan as. Mutable.
+	ExternalName string `json:"externalName"`
+
+	// ExternalID is the identity of this object for use with the OSB API.
+	//
+	// Immutable.
+	ExternalID string `json:"externalID"`
+
+	// Description is a short description of this ServicePlan.
+	Description string `json:"description"`
+
+
+	// ExternalMetadata is a blob of information about the plan, meant to be
+	// user-facing content and display instructions.  This field may contain
+	// platform-specific conventional values.
+	ExternalMetadata *runtime.RawExtension `json:"externalMetadata,omitempty"`
+
+	// Currently, this field is ALPHA: it may change or disappear at any time
+	// and its data will not be migrated.
+	//
+	// ActionCreateParameterSchema is the schema for the parameters
+	// that may be supplied when provisioning a new ServiceInstance on this plan.
+	ActionCreateParameterSchema *runtime.RawExtension `json:"acitonCreateParameterSchema,omitempty"`
+
+	// Currently, this field is ALPHA: it may change or disappear at any time
+	// and its data will not be migrated.
+	//
+	// ActionUpdateParameterSchema is the schema for the parameters
+	// that may be updated once an ServiceAction has been provisioned on
+	// this plan. This field only has meaning if the corresponding ServiceClassSpec is
+	// PlanUpdatable.
+	ActionUpdateParameterSchema *runtime.RawExtension `json:"actionUpdateParameterSchema,omitempty"`
+
+
+	// DefaultProvisionParameters are default parameters passed to the broker
+	// when an instance of this plan is provisioned. Any parameters defined on
+	// the instance are merged with these defaults, with instance-defined
+	// parameters taking precedence over defaults.
+	DefaultActionParameters *runtime.RawExtension `json:"defaultActionParameters,omitempty"`
+}
+
+// ClusterServiceExtensionStatus represents status information about a
+// ClusterServiceExtension.
+type ClusterServiceExtensionStatus struct {
+	CommonServiceExtensionStatus `json:",inline"`
+}
+
+// CommonServiceExtensionStatus represents status information about a
+// ClusterServiceExtension.
+type CommonServiceExtensionStatus struct {
+	// RemovedFromBrokerCatalog indicates that the broker removed the plan
+	// from its catalog.
+	RemovedFromBrokerCatalog bool `json:"removedFromBrokerCatalog"`
+}
+
+
+// +genclient
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ServiceAction represents an action to a provisioned instance of a ServiceClass.
+// Currently, the spec field cannot be changed once a ServiceInstance is
+// created.  Spec changes submitted by users will be ignored.
+//
+// +k8s:openapi-gen=x-kubernetes-print-columns:custom-columns=NAME:.metadata.name,URL:.spec.url
+type ServiceAction struct {
+	metav1.TypeMeta `json:",inline"`
+
+	// The name of this resource in etcd is in ObjectMeta.Name.
+	// More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitempty"`
+
+	// Spec defines the behavior of the service instance.
+	// +optional
+	Spec ServiceActionSpec `json:"spec,omitempty"`
+
+	// Status represents the current status of a service instance.
+	// +optional
+	Status ServiceActionStatus `json:"status,omitempty"`
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
+// ServiceActionList is a list of ServiceAction.
+type ServiceActionList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitempty"`
+
+	Items []ServiceAction `json:"items"`
+}
+
+// ServiceActionSpec represents the desired state of an Action.
+type ServiceActionSpec struct {
+	// InstanceRef is the reference to the Instance this ServiceBinding is to.
+	//
+	// Immutable.
+	InstanceRef LocalObjectReference `json:"instanceRef"`
+
+	// Specification of what ServiceClass/ServicePlan is being provisioned.
+	PlanReference `json:",inline"`
+
+	// ClusterServiceClassRef is a reference to the ClusterServiceClass
+	// that the user selected. This is set by the controller based on the
+	// cluster-scoped values specified in the PlanReference.
+	ClusterServiceClassRef *ClusterObjectReference `json:"clusterServiceClassRef,omitempty"`
+	// ClusterServicePlanRef is a reference to the ClusterServicePlan
+	// that the user selected. This is set by the controller based on the
+	// cluster-scoped values specified in the PlanReference.
+	ClusterServicePlanRef *ClusterObjectReference `json:"clusterServicePlanRef,omitempty"`
+
+	// Parameters is a set of the parameters to be passed to the underlying
+	// broker. The inline YAML/JSON payload to be translated into equivalent
+	// JSON object. If a top-level parameter name exists in multiples sources
+	// among `Parameters` and `ParametersFrom` fields, it is considered to be
+	// a user error in the specification.
+	//
+	// The Parameters field is NOT secret or secured in any way and should
+	// NEVER be used to hold sensitive information. To set parameters that
+	// contain secret information, you should ALWAYS store that information
+	// in a Secret and use the ParametersFrom field.
+	//
+	// +optional
+	Parameters *runtime.RawExtension `json:"parameters,omitempty"`
+
+	// List of sources to populate parameters.
+	// If a top-level parameter name exists in multiples sources among
+	// `Parameters` and `ParametersFrom` fields, it is
+	// considered to be a user error in the specification.
+	// +optional
+	ParametersFrom []ParametersFromSource `json:"parametersFrom,omitempty"`
+
+	// SecretName is the name of the secret to create in the ServiceAction's
+	// namespace that will hold the response associated with the ServiceAction.
+	SecretName string `json:"secretName,omitempty"`
+
+	// ExternalID is the identity of this object for use with the OSB API.
+	//
+	// Immutable.
+	// +optional
+	ExternalID string `json:"externalID"`
+}
+
+
+// ServiceActionStatus represents the current status of an Action.
+type ServiceActionStatus struct {
+	Conditions []ServiceActionCondition `json:"conditions"`
+
+	// AsyncOpInProgress is set to true if there is an ongoing async operation
+	// against this Service Instance in progress.
+	AsyncOpInProgress bool `json:"asyncOpInProgress"`
+
+	// OrphanMitigationInProgress is set to true if there is an ongoing orphan
+	// mitigation operation against this ServiceInstance in progress.
+	OrphanMitigationInProgress bool `json:"orphanMitigationInProgress"`
+
+	// LastOperation is the string that the broker may have returned when
+	// an async operation started, it should be sent back to the broker
+	// on poll requests as a query param.
+	LastOperation *string `json:"lastOperation,omitempty"`
+
+
+	// CurrentOperation is the operation the Controller is currently performing
+	// on the ServiceInstance.
+	CurrentOperation ServiceActionOperation `json:"currentOperation,omitempty"`
+
+
+	// ObservedGeneration is the 'Generation' of the serviceInstanceSpec that
+	// was last processed by the controller. The observed generation is updated
+	// whenever the status is updated regardless of operation result.
+	ObservedGeneration int64 `json:"observedGeneration"`
+
+	// OperationStartTime is the time at which the current operation began.
+	OperationStartTime *metav1.Time `json:"operationStartTime,omitempty"`
+
+	// LastConditionState aggregates state from the Conditions array
+	// It is used for printing in a kubectl output via additionalPrinterColumns
+	LastConditionState string `json:"lastConditionState"`
+}
+
+// ServiceActionCondition condition information for a ServiceBinding.
+type ServiceActionCondition struct {
+	// Type of the condition, currently ('Ready').
+	Type ServiceActionConditionType `json:"type"`
+
+	// Status of the condition, one of ('True', 'False', 'Unknown').
+	Status ConditionStatus `json:"status"`
+
+	// LastTransitionTime is the timestamp corresponding to the last status
+	// change of this condition.
+	LastTransitionTime metav1.Time `json:"lastTransitionTime"`
+
+	// Reason is a brief machine readable explanation for the condition's last
+	// transition.
+	Reason string `json:"reason"`
+
+	// Message is a human readable description of the details of the last
+	// transition, complementing reason.
+	Message string `json:"message"`
+}
+
+// ServiceActionConditionType represents a ServiceBindingCondition value.
+type ServiceActionConditionType string
+
+const (
+	// ServiceActionConditionReady represents a binding condition is in ready state.
+	ServiceActionConditionReady ServiceActionConditionType = "Ready"
+
+	// ServiceActionConditionFailed represents a ServiceBindingCondition that has failed
+	// completely and should not be retried.
+	ServiceActionConditionFailed ServiceActionConditionType = "Failed"
+)
+
+// ServiceActionOperation represents a type of operation
+// the controller can be performing for a action in the OSB API.
+type ServiceActionOperation string
+
+const (
+	// ServiceActionOperationBind indicates that the
+	// ServiceBinding is being bound.
+	ServiceActionOperationAction ServiceActionOperation = "Action"
+	// ServiceBindingOperationUnbind indicates that the
+	// ServiceBinding is being unbound.
+	ServiceActionOperationUnAction ServiceActionOperation = "Unaction"
+)

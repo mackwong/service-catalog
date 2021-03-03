@@ -45,6 +45,24 @@ func NewBindingContextBuilder(binding *v1beta1.ServiceBinding) *ContextBuilder {
 	return newResourceContextBuilder(ServiceBinding, &binding.ObjectMeta)
 }
 
+// newResourceContextBuilder returns a new ContextBuilder that can be used to format messages in the
+// form `ClusterServiceDescription "<Name>" v<ResourceVersion>: <message>`.
+func NewClusterDescriptionContextBuilder(description *v1beta1.ClusterServiceDescription) *ContextBuilder {
+	return newResourceContextBuilder(ClusterServiceDescription, &description.ObjectMeta)
+}
+
+// NewClusterExtensionContextBuilder returns a new ContextBuilder that can be used to format messages in the
+// form `ClusterServiceExtension "<Name>" v<ResourceVersion>: <message>`.
+func NewClusterExtensionContextBuilder(action *v1beta1.ClusterServiceExtension) *ContextBuilder {
+	return newResourceContextBuilder(ClusterServiceExtension, &action.ObjectMeta)
+}
+
+// NewActionContextBuilder returns a new ContextBuilder that can be used to format messages in the
+// form `ServiceAction "<Namespace>/<Name>" v<ResourceVersion>: <message>`.
+func NewActionContextBuilder(action *v1beta1.ServiceAction) *ContextBuilder {
+	return newResourceContextBuilder(ServiceAction, &action.ObjectMeta)
+}
+
 // NewClusterServiceBrokerContextBuilder returns a new ContextBuilder that can be used to format messages in the
 // form `ClusterServiceBroker "<Name>" v<ResourceVersion>: <message>`.
 func NewClusterServiceBrokerContextBuilder(broker *v1beta1.ClusterServiceBroker) *ContextBuilder {

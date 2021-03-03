@@ -28,7 +28,10 @@ type ServicecatalogV1beta1Interface interface {
 	RESTClient() rest.Interface
 	ClusterServiceBrokersGetter
 	ClusterServiceClassesGetter
+	ClusterServiceDescriptionsGetter
+	ClusterServiceExtensionsGetter
 	ClusterServicePlansGetter
+	ServiceActionsGetter
 	ServiceBindingsGetter
 	ServiceBrokersGetter
 	ServiceClassesGetter
@@ -49,8 +52,20 @@ func (c *ServicecatalogV1beta1Client) ClusterServiceClasses() ClusterServiceClas
 	return newClusterServiceClasses(c)
 }
 
+func (c *ServicecatalogV1beta1Client) ClusterServiceDescriptions() ClusterServiceDescriptionInterface {
+	return newClusterServiceDescriptions(c)
+}
+
+func (c *ServicecatalogV1beta1Client) ClusterServiceExtensions() ClusterServiceExtensionInterface {
+	return newClusterServiceExtensions(c)
+}
+
 func (c *ServicecatalogV1beta1Client) ClusterServicePlans() ClusterServicePlanInterface {
 	return newClusterServicePlans(c)
+}
+
+func (c *ServicecatalogV1beta1Client) ServiceActions(namespace string) ServiceActionInterface {
+	return newServiceActions(c, namespace)
 }
 
 func (c *ServicecatalogV1beta1Client) ServiceBindings(namespace string) ServiceBindingInterface {

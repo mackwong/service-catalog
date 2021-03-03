@@ -85,6 +85,9 @@ func NewController(
 	bindingInformer informers.ServiceBindingInformer,
 	clusterServicePlanInformer informers.ClusterServicePlanInformer,
 	servicePlanInformer informers.ServicePlanInformer,
+	clusterServiceDescriptionInformer informers.ClusterServiceDescriptionInformer,
+	clusterServiceExtensionInformer informers.ClusterServiceExtensionInformer,
+	serviceActionInformer informers.ServiceActionInformer,
 	brokerClientCreateFunc osb.CreateFunc,
 	brokerRelistInterval time.Duration,
 	osbAPIPreferredVersion string,
@@ -96,26 +99,30 @@ func NewController(
 	osbAPITimeOut time.Duration,
 ) (Controller, error) {
 	controller := &controller{
-		kubeClient:                  kubeClient,
-		serviceCatalogClient:        serviceCatalogClient,
-		brokerRelistInterval:        brokerRelistInterval,
-		OSBAPIPreferredVersion:      osbAPIPreferredVersion,
-		OSBAPITimeOut:               osbAPITimeOut,
-		recorder:                    recorder,
-		reconciliationRetryDuration: reconciliationRetryDuration,
-		clusterServiceBrokerQueue:   workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "cluster-service-broker"),
-		serviceBrokerQueue:          workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "service-broker"),
-		clusterServiceClassQueue:    workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "cluster-service-class"),
-		serviceClassQueue:           workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-class"),
-		clusterServicePlanQueue:     workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "cluster-service-plan"),
-		servicePlanQueue:            workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-plan"),
-		instanceQueue:               workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-instance"),
-		bindingQueue:                workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-binding"),
-		instancePollingQueue:        workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "instance-poller"),
-		bindingPollingQueue:         workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "binding-poller"),
-		clusterIDConfigMapName:      clusterIDConfigMapName,
-		clusterIDConfigMapNamespace: clusterIDConfigMapNamespace,
-		brokerClientCreateFunc:      brokerClientCreateFunc,
+		kubeClient:                     kubeClient,
+		serviceCatalogClient:           serviceCatalogClient,
+		brokerRelistInterval:           brokerRelistInterval,
+		OSBAPIPreferredVersion:         osbAPIPreferredVersion,
+		OSBAPITimeOut:                  osbAPITimeOut,
+		recorder:                       recorder,
+		reconciliationRetryDuration:    reconciliationRetryDuration,
+		clusterServiceBrokerQueue:      workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "cluster-service-broker"),
+		serviceBrokerQueue:             workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "service-broker"),
+		clusterServiceClassQueue:       workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "cluster-service-class"),
+		serviceClassQueue:              workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-class"),
+		clusterServicePlanQueue:        workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "cluster-service-plan"),
+		servicePlanQueue:               workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-plan"),
+		clusterServiceDescriptionQueue: workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "cluster-service-description"),
+		clusterServiceExtensionQueue:   workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "cluster-service-extension"),
+		serviceActionQueue:             workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-action"),
+		instanceQueue:                  workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-instance"),
+		bindingQueue:                   workqueue.NewNamedRateLimitingQueue(workqueue.DefaultControllerRateLimiter(), "service-binding"),
+		instancePollingQueue:           workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "instance-poller"),
+		bindingPollingQueue:            workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "binding-poller"),
+		actionPollingQueue:            workqueue.NewNamedRateLimitingQueue(workqueue.NewItemExponentialFailureRateLimiter(pollingStartInterval, operationPollingMaximumBackoffDuration), "action-poller"),
+		clusterIDConfigMapName:         clusterIDConfigMapName,
+		clusterIDConfigMapNamespace:    clusterIDConfigMapNamespace,
+		brokerClientCreateFunc:         brokerClientCreateFunc,
 	}
 	controller.brokerClientManager = NewBrokerClientManager(brokerClientCreateFunc)
 
@@ -138,6 +145,27 @@ func NewController(
 		AddFunc:    controller.clusterServicePlanAdd,
 		UpdateFunc: controller.clusterServicePlanUpdate,
 		DeleteFunc: controller.clusterServicePlanDelete,
+	})
+
+	controller.clusterServiceDescriptionLister = clusterServiceDescriptionInformer.Lister()
+	clusterServiceDescriptionInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
+		AddFunc:    controller.clusterServiceDescriptionAdd,
+		UpdateFunc: controller.clusterServiceDescriptionUpdate,
+		DeleteFunc: controller.clusterServiceDescriptionDelete,
+	})
+
+	controller.clusterServiceExtensionLister = clusterServiceExtensionInformer.Lister()
+	clusterServiceExtensionInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
+		AddFunc:    controller.clusterServiceExtensionAdd,
+		UpdateFunc: controller.clusterServiceExtensionUpdate,
+		DeleteFunc: controller.clusterServiceExtensionDelete,
+	})
+
+	controller.serviceActionLister = serviceActionInformer.Lister()
+	serviceActionInformer.Informer().AddEventHandler(cache.ResourceEventHandlerFuncs{
+		AddFunc:    controller.serviceActionAdd,
+		UpdateFunc: controller.serviceActionUpdate,
+		DeleteFunc: controller.serviceActionDelete,
 	})
 
 	controller.instanceLister = instanceInformer.Lister()
@@ -191,31 +219,38 @@ type Controller interface {
 
 // controller is a concrete Controller.
 type controller struct {
-	kubeClient                  kubernetes.Interface
-	serviceCatalogClient        servicecatalogclientset.ServicecatalogV1beta1Interface
-	clusterServiceBrokerLister  listers.ClusterServiceBrokerLister
-	serviceBrokerLister         listers.ServiceBrokerLister
-	clusterServiceClassLister   listers.ClusterServiceClassLister
-	serviceClassLister          listers.ServiceClassLister
-	instanceLister              listers.ServiceInstanceLister
-	bindingLister               listers.ServiceBindingLister
-	clusterServicePlanLister    listers.ClusterServicePlanLister
-	servicePlanLister           listers.ServicePlanLister
-	brokerRelistInterval        time.Duration
-	OSBAPIPreferredVersion      string
-	OSBAPITimeOut               time.Duration
-	recorder                    record.EventRecorder
-	reconciliationRetryDuration time.Duration
-	clusterServiceBrokerQueue   workqueue.RateLimitingInterface
-	serviceBrokerQueue          workqueue.RateLimitingInterface
-	clusterServiceClassQueue    workqueue.RateLimitingInterface
-	serviceClassQueue           workqueue.RateLimitingInterface
-	clusterServicePlanQueue     workqueue.RateLimitingInterface
-	servicePlanQueue            workqueue.RateLimitingInterface
-	instanceQueue               workqueue.RateLimitingInterface
-	bindingQueue                workqueue.RateLimitingInterface
-	instancePollingQueue        workqueue.RateLimitingInterface
-	bindingPollingQueue         workqueue.RateLimitingInterface
+	kubeClient                      kubernetes.Interface
+	serviceCatalogClient            servicecatalogclientset.ServicecatalogV1beta1Interface
+	clusterServiceBrokerLister      listers.ClusterServiceBrokerLister
+	serviceBrokerLister             listers.ServiceBrokerLister
+	clusterServiceClassLister       listers.ClusterServiceClassLister
+	serviceClassLister              listers.ServiceClassLister
+	instanceLister                  listers.ServiceInstanceLister
+	bindingLister                   listers.ServiceBindingLister
+	clusterServicePlanLister        listers.ClusterServicePlanLister
+	servicePlanLister               listers.ServicePlanLister
+	clusterServiceDescriptionLister listers.ClusterServiceDescriptionLister
+	clusterServiceExtensionLister        listers.ClusterServiceExtensionLister
+	serviceActionLister             listers.ServiceActionLister
+	brokerRelistInterval            time.Duration
+	OSBAPIPreferredVersion          string
+	OSBAPITimeOut                   time.Duration
+	recorder                        record.EventRecorder
+	reconciliationRetryDuration     time.Duration
+	clusterServiceBrokerQueue       workqueue.RateLimitingInterface
+	serviceBrokerQueue              workqueue.RateLimitingInterface
+	clusterServiceClassQueue        workqueue.RateLimitingInterface
+	serviceClassQueue               workqueue.RateLimitingInterface
+	clusterServicePlanQueue         workqueue.RateLimitingInterface
+	servicePlanQueue                workqueue.RateLimitingInterface
+	clusterServiceDescriptionQueue  workqueue.RateLimitingInterface
+	clusterServiceExtensionQueue    workqueue.RateLimitingInterface
+	serviceActionQueue              workqueue.RateLimitingInterface
+	instanceQueue                   workqueue.RateLimitingInterface
+	bindingQueue                    workqueue.RateLimitingInterface
+	instancePollingQueue            workqueue.RateLimitingInterface
+	bindingPollingQueue             workqueue.RateLimitingInterface
+	actionPollingQueue              workqueue.RateLimitingInterface
 	// clusterIDConfigMapName is the k8s name that the clusterid
 	// configmap will have.
 	clusterIDConfigMapName string
@@ -253,6 +288,12 @@ func (c *controller) Run(workers int, stopCh <-chan struct{}) {
 		createWorker(c.instanceQueue, "ServiceInstance", maxRetries, true, c.reconcileServiceInstanceKey, stopCh, &waitGroup)
 		createWorker(c.bindingQueue, "ServiceBinding", maxRetries, true, c.reconcileServiceBindingKey, stopCh, &waitGroup)
 		createWorker(c.instancePollingQueue, "InstancePoller", maxRetries, false, c.requeueServiceInstanceForPoll, stopCh, &waitGroup)
+		//Todo: use feature_gate?
+		createWorker(c.actionPollingQueue, "ActionPoller", maxRetries, false, c.requeueServiceActionForPoll, stopCh, &waitGroup)
+
+
+		createWorker(c.clusterServiceDescriptionQueue, "ClusterServiceDescription", maxRetries, true, c.reconcileClusterServiceDescriptionKey, stopCh, &waitGroup)
+		createWorker(c.serviceActionQueue, "ServiceAction", maxRetries, true, c.reconcileServiceActionKey, stopCh, &waitGroup)
 
 		if utilfeature.DefaultFeatureGate.Enabled(scfeatures.NamespacedServiceBroker) {
 			createWorker(c.serviceBrokerQueue, "ServiceBroker", maxRetries, true, c.reconcileServiceBrokerKey, stopCh, &waitGroup)
@@ -281,6 +322,8 @@ func (c *controller) Run(workers int, stopCh <-chan struct{}) {
 	c.clusterServiceBrokerQueue.ShutDown()
 	c.clusterServiceClassQueue.ShutDown()
 	c.clusterServicePlanQueue.ShutDown()
+	c.clusterServiceDescriptionQueue.ShutDown()
+	c.serviceActionQueue.ShutDown()
 	c.instanceQueue.ShutDown()
 	c.bindingQueue.ShutDown()
 	c.instancePollingQueue.ShutDown()
@@ -538,6 +581,64 @@ func (c *controller) getServiceClassAndServiceBroker(instance *v1beta1.ServiceIn
 	return serviceClass, broker.Name, brokerClient, nil
 }
 
+// getClusterServiceClassPlanAndClusterServiceBrokerForServiceAction is a sequence of operations that's
+// done to validate service plan, service class exist, and handles creating
+// a brokerclient to use for a given ServiceInstance.
+// Sets ClusterServiceClassRef and/or ClusterServicePlanRef if they haven't been already set.
+func (c *controller) getClusterServiceClassPlanAndClusterServiceBrokerForServiceAction(instance *v1beta1.ServiceInstance, action *v1beta1.ServiceAction) (*v1beta1.ClusterServiceClass, *v1beta1.ClusterServicePlan, string, osb.Client, error) {
+	serviceClass, serviceBrokerName, osbClient, err := c.getClusterServiceClassAndClusterServiceBrokerForServiceAction(instance, action)
+	if err != nil {
+		return nil, nil, "", nil, err
+	}
+	servicePlan, err := c.getClusterServicePlanForServiceAction(instance, action, serviceClass)
+	if err != nil {
+		return nil, nil, "", nil, err
+	}
+
+	return serviceClass, servicePlan, serviceBrokerName, osbClient, nil
+}
+
+func (c *controller) getClusterServiceClassAndClusterServiceBrokerForServiceAction(instance *v1beta1.ServiceInstance, action *v1beta1.ServiceAction) (*v1beta1.ClusterServiceClass, string, osb.Client, error) {
+	serviceClass, err := c.getClusterServiceClassForServiceAction(instance, action)
+	if err != nil {
+		return nil, "", nil, err
+	}
+
+	serviceBroker, err := c.getClusterServiceBrokerForServiceAction(instance, action, serviceClass)
+	if err != nil {
+		return nil, "", nil, err
+	}
+
+	osbClient, err := c.getBrokerClientForServiceAction(instance, action)
+	if err != nil {
+		return nil, "", nil, err
+	}
+
+	return serviceClass, serviceBroker.Name, osbClient, nil
+}
+
+func (c *controller) getClusterServicePlanForServiceAction(instance *v1beta1.ServiceInstance, action *v1beta1.ServiceAction, serviceClass *v1beta1.ClusterServiceClass) (*v1beta1.ClusterServicePlan, error) {
+	pcb := pretty.NewInstanceContextBuilder(instance)
+	servicePlan, err := c.clusterServicePlanLister.Get(instance.Spec.ClusterServicePlanRef.Name)
+	if nil != err {
+		s := fmt.Sprintf(
+			"References a non-existent ClusterServicePlan %q - %v",
+			instance.Spec.ClusterServicePlanRef.Name, instance.Spec.PlanReference,
+		)
+		klog.Warning(pcb.Message(s))
+		c.updateServiceActionCondition(
+			action,
+			v1beta1.ServiceActionConditionReady,
+			v1beta1.ConditionFalse,
+			errorNonexistentClusterServicePlanReason,
+			"The ServiceAction references an ServiceInstance which references ClusterServicePlan that does not exist. "+s,
+		)
+		c.recorder.Event(action, corev1.EventTypeWarning, errorNonexistentClusterServicePlanReason, s)
+		return nil, fmt.Errorf(s)
+	}
+	return servicePlan, nil
+}
+
 // getClusterServiceClassPlanAndClusterServiceBrokerForServiceBinding is a sequence of operations that's
 // done to validate service plan, service class exist, and handles creating
 // a brokerclient to use for a given ServiceInstance.
@@ -572,6 +673,28 @@ func (c *controller) getClusterServiceClassAndClusterServiceBrokerForServiceBind
 	}
 
 	return serviceClass, serviceBroker.Name, osbClient, nil
+}
+
+func (c *controller) getClusterServiceClassForServiceAction(instance *v1beta1.ServiceInstance, action *v1beta1.ServiceAction) (*v1beta1.ClusterServiceClass, error) {
+	pcb := pretty.NewInstanceContextBuilder(instance)
+	serviceClass, err := c.clusterServiceClassLister.Get(instance.Spec.ClusterServiceClassRef.Name)
+	if err != nil {
+		s := fmt.Sprintf(
+			"References a non-existent ClusterServiceClass %q - %c",
+			instance.Spec.ClusterServiceClassRef.Name, instance.Spec.PlanReference,
+		)
+		klog.Warning(pcb.Message(s))
+		c.updateServiceActionCondition(
+			action,
+			v1beta1.ServiceActionConditionReady,
+			v1beta1.ConditionFalse,
+			errorNonexistentClusterServiceClassReason,
+			"The action references a ClusterServiceClass that does not exist. "+s,
+		)
+		c.recorder.Event(action, corev1.EventTypeWarning, errorNonexistentClusterServiceClassMessage, s)
+		return nil, err
+	}
+	return serviceClass, nil
 }
 
 func (c *controller) getClusterServiceClassForServiceBinding(instance *v1beta1.ServiceInstance, binding *v1beta1.ServiceBinding) (*v1beta1.ClusterServiceClass, error) {
@@ -618,6 +741,27 @@ func (c *controller) getClusterServicePlanForServiceBinding(instance *v1beta1.Se
 	return servicePlan, nil
 }
 
+func (c *controller) getClusterServiceBrokerForServiceAction(instance *v1beta1.ServiceInstance, action *v1beta1.ServiceAction, serviceClass *v1beta1.ClusterServiceClass) (*v1beta1.ClusterServiceBroker, error) {
+	pcb := pretty.NewInstanceContextBuilder(instance)
+
+	broker, err := c.clusterServiceBrokerLister.Get(serviceClass.Spec.ClusterServiceBrokerName)
+	if err != nil {
+		s := fmt.Sprintf("References a non-existent ClusterServiceBroker %q", serviceClass.Spec.ClusterServiceBrokerName)
+		klog.Warning(pcb.Message(s))
+		c.updateServiceActionCondition(
+			action,
+			v1beta1.ServiceActionConditionReady,
+			v1beta1.ConditionFalse,
+			errorNonexistentClusterServiceBrokerReason,
+			"The action references a ClusterServiceBroker that does not exist. "+s,
+		)
+		c.recorder.Event(action, corev1.EventTypeWarning, errorNonexistentClusterServiceBrokerReason, s)
+		return nil, err
+	}
+	return broker, nil
+}
+
+
 func (c *controller) getClusterServiceBrokerForServiceBinding(instance *v1beta1.ServiceInstance, binding *v1beta1.ServiceBinding, serviceClass *v1beta1.ClusterServiceClass) (*v1beta1.ClusterServiceBroker, error) {
 	pcb := pretty.NewInstanceContextBuilder(instance)
 
@@ -636,6 +780,31 @@ func (c *controller) getClusterServiceBrokerForServiceBinding(instance *v1beta1.
 		return nil, err
 	}
 	return broker, nil
+}
+
+func (c *controller) getBrokerClientForServiceAction(instance *v1beta1.ServiceInstance, action *v1beta1.ServiceAction) (osb.Client, error) {
+	var brokerClient osb.Client
+
+	if instance.Spec.ClusterServiceClassSpecified() {
+		serviceClass, err := c.getClusterServiceClassForServiceAction(instance, action)
+		if err != nil {
+			return nil, err
+		}
+
+		broker, err := c.getClusterServiceBrokerForServiceAction(instance, action, serviceClass)
+		if err != nil {
+			return nil, err
+		}
+
+		brokerClient, err = c.clusterServiceBrokerClient(broker)
+		if err != nil {
+			return nil, err
+		}
+	} else if instance.Spec.ServiceClassSpecified() {
+		return nil, fmt.Errorf("action can only use with clusterserviceclass")
+	}
+
+	return brokerClient, nil
 }
 
 func (c *controller) getBrokerClientForServiceBinding(instance *v1beta1.ServiceInstance, binding *v1beta1.ServiceBinding) (osb.Client, error) {

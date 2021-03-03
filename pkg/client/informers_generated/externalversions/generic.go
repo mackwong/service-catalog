@@ -58,8 +58,14 @@ func (f *sharedInformerFactory) ForResource(resource schema.GroupVersionResource
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ClusterServiceBrokers().Informer()}, nil
 	case v1beta1.SchemeGroupVersion.WithResource("clusterserviceclasses"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ClusterServiceClasses().Informer()}, nil
+	case v1beta1.SchemeGroupVersion.WithResource("clusterservicedescriptions"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ClusterServiceDescriptions().Informer()}, nil
+	case v1beta1.SchemeGroupVersion.WithResource("clusterserviceextensions"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ClusterServiceExtensions().Informer()}, nil
 	case v1beta1.SchemeGroupVersion.WithResource("clusterserviceplans"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ClusterServicePlans().Informer()}, nil
+	case v1beta1.SchemeGroupVersion.WithResource("serviceactions"):
+		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ServiceActions().Informer()}, nil
 	case v1beta1.SchemeGroupVersion.WithResource("servicebindings"):
 		return &genericInformer{resource: resource.GroupResource(), informer: f.Servicecatalog().V1beta1().ServiceBindings().Informer()}, nil
 	case v1beta1.SchemeGroupVersion.WithResource("servicebrokers"):

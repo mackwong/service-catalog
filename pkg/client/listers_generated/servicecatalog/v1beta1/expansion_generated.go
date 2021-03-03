@@ -26,9 +26,25 @@ type ClusterServiceBrokerListerExpansion interface{}
 // ClusterServiceClassLister.
 type ClusterServiceClassListerExpansion interface{}
 
+// ClusterServiceDescriptionListerExpansion allows custom methods to be added to
+// ClusterServiceDescriptionLister.
+type ClusterServiceDescriptionListerExpansion interface{}
+
+// ClusterServiceExtensionListerExpansion allows custom methods to be added to
+// ClusterServiceExtensionLister.
+type ClusterServiceExtensionListerExpansion interface{}
+
 // ClusterServicePlanListerExpansion allows custom methods to be added to
 // ClusterServicePlanLister.
 type ClusterServicePlanListerExpansion interface{}
+
+// ServiceActionListerExpansion allows custom methods to be added to
+// ServiceActionLister.
+type ServiceActionListerExpansion interface{}
+
+// ServiceActionNamespaceListerExpansion allows custom methods to be added to
+// ServiceActionNamespaceLister.
+type ServiceActionNamespaceListerExpansion interface{}
 
 // ServiceBindingListerExpansion allows custom methods to be added to
 // ServiceBindingLister.

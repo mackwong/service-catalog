@@ -28,8 +28,14 @@ type Interface interface {
 	ClusterServiceBrokers() ClusterServiceBrokerInformer
 	// ClusterServiceClasses returns a ClusterServiceClassInformer.
 	ClusterServiceClasses() ClusterServiceClassInformer
+	// ClusterServiceDescriptions returns a ClusterServiceDescriptionInformer.
+	ClusterServiceDescriptions() ClusterServiceDescriptionInformer
+	// ClusterServiceExtensions returns a ClusterServiceExtensionInformer.
+	ClusterServiceExtensions() ClusterServiceExtensionInformer
 	// ClusterServicePlans returns a ClusterServicePlanInformer.
 	ClusterServicePlans() ClusterServicePlanInformer
+	// ServiceActions returns a ServiceActionInformer.
+	ServiceActions() ServiceActionInformer
 	// ServiceBindings returns a ServiceBindingInformer.
 	ServiceBindings() ServiceBindingInformer
 	// ServiceBrokers returns a ServiceBrokerInformer.
@@ -63,9 +69,24 @@ func (v *version) ClusterServiceClasses() ClusterServiceClassInformer {
 	return &clusterServiceClassInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
 }
 
+// ClusterServiceDescriptions returns a ClusterServiceDescriptionInformer.
+func (v *version) ClusterServiceDescriptions() ClusterServiceDescriptionInformer {
+	return &clusterServiceDescriptionInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// ClusterServiceExtensions returns a ClusterServiceExtensionInformer.
+func (v *version) ClusterServiceExtensions() ClusterServiceExtensionInformer {
+	return &clusterServiceExtensionInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
 // ClusterServicePlans returns a ClusterServicePlanInformer.
 func (v *version) ClusterServicePlans() ClusterServicePlanInformer {
 	return &clusterServicePlanInformer{factory: v.factory, tweakListOptions: v.tweakListOptions}
+}
+
+// ServiceActions returns a ServiceActionInformer.
+func (v *version) ServiceActions() ServiceActionInformer {
+	return &serviceActionInformer{factory: v.factory, namespace: v.namespace, tweakListOptions: v.tweakListOptions}
 }
 
 // ServiceBindings returns a ServiceBindingInformer.

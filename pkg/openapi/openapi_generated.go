@@ -31,72 +31,88 @@ import (
 
 func GetOpenAPIDefinitions(ref common.ReferenceCallback) map[string]common.OpenAPIDefinition {
 	return map[string]common.OpenAPIDefinition{
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.AddKeyTransform":                schema_pkg_apis_servicecatalog_v1beta1_AddKeyTransform(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.AddKeysFromTransform":           schema_pkg_apis_servicecatalog_v1beta1_AddKeysFromTransform(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.BasicAuthConfig":                schema_pkg_apis_servicecatalog_v1beta1_BasicAuthConfig(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.BearerTokenAuthConfig":          schema_pkg_apis_servicecatalog_v1beta1_BearerTokenAuthConfig(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CatalogRestrictions":            schema_pkg_apis_servicecatalog_v1beta1_CatalogRestrictions(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterBasicAuthConfig":         schema_pkg_apis_servicecatalog_v1beta1_ClusterBasicAuthConfig(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterBearerTokenAuthConfig":   schema_pkg_apis_servicecatalog_v1beta1_ClusterBearerTokenAuthConfig(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference":         schema_pkg_apis_servicecatalog_v1beta1_ClusterObjectReference(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBroker":           schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBroker(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerAuthInfo":   schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerAuthInfo(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerList":       schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerSpec":       schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerStatus":     schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClass":            schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClass(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClassList":        schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClassSpec":        schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClassStatus":      schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlan":             schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlan(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlanList":         schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlanList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlanSpec":         schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlanSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlanStatus":       schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlanStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceBrokerSpec":        schema_pkg_apis_servicecatalog_v1beta1_CommonServiceBrokerSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceBrokerStatus":      schema_pkg_apis_servicecatalog_v1beta1_CommonServiceBrokerStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceClassSpec":         schema_pkg_apis_servicecatalog_v1beta1_CommonServiceClassSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceClassStatus":       schema_pkg_apis_servicecatalog_v1beta1_CommonServiceClassStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServicePlanSpec":          schema_pkg_apis_servicecatalog_v1beta1_CommonServicePlanSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServicePlanStatus":        schema_pkg_apis_servicecatalog_v1beta1_CommonServicePlanStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.LocalObjectReference":           schema_pkg_apis_servicecatalog_v1beta1_LocalObjectReference(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ObjectReference":                schema_pkg_apis_servicecatalog_v1beta1_ObjectReference(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ParametersFromSource":           schema_pkg_apis_servicecatalog_v1beta1_ParametersFromSource(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.PlanReference":                  schema_pkg_apis_servicecatalog_v1beta1_PlanReference(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.RemoveKeyTransform":             schema_pkg_apis_servicecatalog_v1beta1_RemoveKeyTransform(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.RenameKeyTransform":             schema_pkg_apis_servicecatalog_v1beta1_RenameKeyTransform(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.SecretKeyReference":             schema_pkg_apis_servicecatalog_v1beta1_SecretKeyReference(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.SecretTransform":                schema_pkg_apis_servicecatalog_v1beta1_SecretTransform(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBinding":                 schema_pkg_apis_servicecatalog_v1beta1_ServiceBinding(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingCondition":        schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingCondition(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingList":             schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingPropertiesState":  schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingPropertiesState(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingSpec":             schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingStatus":           schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBroker":                  schema_pkg_apis_servicecatalog_v1beta1_ServiceBroker(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerAuthInfo":          schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerAuthInfo(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerCondition":         schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerCondition(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerList":              schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerSpec":              schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerStatus":            schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClass":                   schema_pkg_apis_servicecatalog_v1beta1_ServiceClass(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClassList":               schema_pkg_apis_servicecatalog_v1beta1_ServiceClassList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClassSpec":               schema_pkg_apis_servicecatalog_v1beta1_ServiceClassSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClassStatus":             schema_pkg_apis_servicecatalog_v1beta1_ServiceClassStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstance":                schema_pkg_apis_servicecatalog_v1beta1_ServiceInstance(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceCondition":       schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceCondition(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceList":            schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstancePropertiesState": schema_pkg_apis_servicecatalog_v1beta1_ServiceInstancePropertiesState(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceSpec":            schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceStatus":          schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlan":                    schema_pkg_apis_servicecatalog_v1beta1_ServicePlan(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlanList":                schema_pkg_apis_servicecatalog_v1beta1_ServicePlanList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlanSpec":                schema_pkg_apis_servicecatalog_v1beta1_ServicePlanSpec(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlanStatus":              schema_pkg_apis_servicecatalog_v1beta1_ServicePlanStatus(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.UserInfo":                       schema_pkg_apis_servicecatalog_v1beta1_UserInfo(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/settings/v1alpha1.PodPreset":                           schema_pkg_apis_settings_v1alpha1_PodPreset(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/settings/v1alpha1.PodPresetList":                       schema_pkg_apis_settings_v1alpha1_PodPresetList(ref),
-		"github.com/kubernetes-sigs/service-catalog/pkg/apis/settings/v1alpha1.PodPresetSpec":                       schema_pkg_apis_settings_v1alpha1_PodPresetSpec(ref),
-		"k8s.io/api/core/v1.AWSElasticBlockStoreVolumeSource":                                                       schema_k8sio_api_core_v1_AWSElasticBlockStoreVolumeSource(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.AddKeyTransform":                 schema_pkg_apis_servicecatalog_v1beta1_AddKeyTransform(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.AddKeysFromTransform":            schema_pkg_apis_servicecatalog_v1beta1_AddKeysFromTransform(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.BasicAuthConfig":                 schema_pkg_apis_servicecatalog_v1beta1_BasicAuthConfig(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.BearerTokenAuthConfig":           schema_pkg_apis_servicecatalog_v1beta1_BearerTokenAuthConfig(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CatalogRestrictions":             schema_pkg_apis_servicecatalog_v1beta1_CatalogRestrictions(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterBasicAuthConfig":          schema_pkg_apis_servicecatalog_v1beta1_ClusterBasicAuthConfig(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterBearerTokenAuthConfig":    schema_pkg_apis_servicecatalog_v1beta1_ClusterBearerTokenAuthConfig(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference":          schema_pkg_apis_servicecatalog_v1beta1_ClusterObjectReference(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBroker":            schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBroker(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerAuthInfo":    schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerAuthInfo(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerList":        schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerSpec":        schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceBrokerStatus":      schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceBrokerStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClass":             schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClass(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClassList":         schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClassSpec":         schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceClassStatus":       schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescription":       schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescription(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionList":   schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescriptionList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionSpec":   schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescriptionSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionStatus": schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescriptionStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtension":         schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtension(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionList":     schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtensionList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionSpec":     schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtensionSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionStatus":   schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtensionStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlan":              schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlan(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlanList":          schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlanList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlanSpec":          schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlanSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServicePlanStatus":        schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlanStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceBrokerSpec":         schema_pkg_apis_servicecatalog_v1beta1_CommonServiceBrokerSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceBrokerStatus":       schema_pkg_apis_servicecatalog_v1beta1_CommonServiceBrokerStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceClassSpec":          schema_pkg_apis_servicecatalog_v1beta1_CommonServiceClassSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceClassStatus":        schema_pkg_apis_servicecatalog_v1beta1_CommonServiceClassStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceDescriptionSpec":    schema_pkg_apis_servicecatalog_v1beta1_CommonServiceDescriptionSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceDescriptionStatus":  schema_pkg_apis_servicecatalog_v1beta1_CommonServiceDescriptionStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServiceExtensionStatus":    schema_pkg_apis_servicecatalog_v1beta1_CommonServiceExtensionStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServicePlanSpec":           schema_pkg_apis_servicecatalog_v1beta1_CommonServicePlanSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.CommonServicePlanStatus":         schema_pkg_apis_servicecatalog_v1beta1_CommonServicePlanStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.LocalObjectReference":            schema_pkg_apis_servicecatalog_v1beta1_LocalObjectReference(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ObjectReference":                 schema_pkg_apis_servicecatalog_v1beta1_ObjectReference(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ParametersFromSource":            schema_pkg_apis_servicecatalog_v1beta1_ParametersFromSource(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.PlanReference":                   schema_pkg_apis_servicecatalog_v1beta1_PlanReference(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.RemoveKeyTransform":              schema_pkg_apis_servicecatalog_v1beta1_RemoveKeyTransform(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.RenameKeyTransform":              schema_pkg_apis_servicecatalog_v1beta1_RenameKeyTransform(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.SecretKeyReference":              schema_pkg_apis_servicecatalog_v1beta1_SecretKeyReference(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.SecretTransform":                 schema_pkg_apis_servicecatalog_v1beta1_SecretTransform(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceAction":                   schema_pkg_apis_servicecatalog_v1beta1_ServiceAction(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionCondition":          schema_pkg_apis_servicecatalog_v1beta1_ServiceActionCondition(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionList":               schema_pkg_apis_servicecatalog_v1beta1_ServiceActionList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionSpec":               schema_pkg_apis_servicecatalog_v1beta1_ServiceActionSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionStatus":             schema_pkg_apis_servicecatalog_v1beta1_ServiceActionStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBinding":                  schema_pkg_apis_servicecatalog_v1beta1_ServiceBinding(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingCondition":         schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingCondition(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingList":              schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingPropertiesState":   schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingPropertiesState(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingSpec":              schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBindingStatus":            schema_pkg_apis_servicecatalog_v1beta1_ServiceBindingStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBroker":                   schema_pkg_apis_servicecatalog_v1beta1_ServiceBroker(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerAuthInfo":           schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerAuthInfo(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerCondition":          schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerCondition(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerList":               schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerSpec":               schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceBrokerStatus":             schema_pkg_apis_servicecatalog_v1beta1_ServiceBrokerStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClass":                    schema_pkg_apis_servicecatalog_v1beta1_ServiceClass(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClassList":                schema_pkg_apis_servicecatalog_v1beta1_ServiceClassList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClassSpec":                schema_pkg_apis_servicecatalog_v1beta1_ServiceClassSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceClassStatus":              schema_pkg_apis_servicecatalog_v1beta1_ServiceClassStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstance":                 schema_pkg_apis_servicecatalog_v1beta1_ServiceInstance(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceCondition":        schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceCondition(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceList":             schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstancePropertiesState":  schema_pkg_apis_servicecatalog_v1beta1_ServiceInstancePropertiesState(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceSpec":             schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceInstanceStatus":           schema_pkg_apis_servicecatalog_v1beta1_ServiceInstanceStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlan":                     schema_pkg_apis_servicecatalog_v1beta1_ServicePlan(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlanList":                 schema_pkg_apis_servicecatalog_v1beta1_ServicePlanList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlanSpec":                 schema_pkg_apis_servicecatalog_v1beta1_ServicePlanSpec(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServicePlanStatus":               schema_pkg_apis_servicecatalog_v1beta1_ServicePlanStatus(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.UserInfo":                        schema_pkg_apis_servicecatalog_v1beta1_UserInfo(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/settings/v1alpha1.PodPreset":                            schema_pkg_apis_settings_v1alpha1_PodPreset(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/settings/v1alpha1.PodPresetList":                        schema_pkg_apis_settings_v1alpha1_PodPresetList(ref),
+		"github.com/kubernetes-sigs/service-catalog/pkg/apis/settings/v1alpha1.PodPresetSpec":                        schema_pkg_apis_settings_v1alpha1_PodPresetSpec(ref),
+		"k8s.io/api/core/v1.AWSElasticBlockStoreVolumeSource":                                                        schema_k8sio_api_core_v1_AWSElasticBlockStoreVolumeSource(ref),
 		"k8s.io/api/core/v1.Affinity":                                    schema_k8sio_api_core_v1_Affinity(ref),
 		"k8s.io/api/core/v1.AttachedVolume":                              schema_k8sio_api_core_v1_AttachedVolume(ref),
 		"k8s.io/api/core/v1.AvoidPods":                                   schema_k8sio_api_core_v1_AvoidPods(ref),
@@ -1047,6 +1063,375 @@ func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceClassStatus(ref common
 	}
 }
 
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescription(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceDescription represents an entity that provides ClusterServiceClasses for use in the service catalog.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Non-namespaced.  The name of this resource in etcd is in ObjectMeta.Name. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Spec defines the behavior of the broker.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Status represents the current status of a broker.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionStatus"),
+						},
+					},
+				},
+			},
+			VendorExtensible: spec.VendorExtensible{
+				Extensions: spec.Extensions{
+					"x-kubernetes-print-columns": "custom-columns=NAME:.metadata.name,URL:.spec.url",
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionSpec", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescriptionStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescriptionList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceDescriptionList is a list of ClusterServiceDescription.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescription"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceDescription", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescriptionSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceBrokerSpec represents a description of a Broker.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"externalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalName is the name of this object that the Service Broker exposed this Service Plan as. Mutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalID is the identity of this object for use with the OSB API.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Description is a short description of this ServicePlan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalMetadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalMetadata is a blob of information about the plan, meant to be user-facing content and display instructions.  This field may contain platform-specific conventional values.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"instanceCreateParameterSchema": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Currently, this field is ALPHA: it may change or disappear at any time and its data will not be migrated.\n\nActionCreateParameterSchema is the schema for the parameters that may be supplied when exec an action on this plan.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"instanceUpdateParameterSchema": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Currently, this field is ALPHA: it may change or disappear at any time and its data will not be migrated.\n\nActionUpdateParameterSchema is the schema for the parameters that may be updated once an action has been provisioned on this plan. This field only has meaning if the corresponding ServiceClassSpec is PlanUpdatable.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"clusterServiceBrokerName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServiceBrokerName is the name of the ClusterServiceBroker that offers this ClusterServicePlan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServiceClassRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServiceClassRef is a reference to the service class that owns this plan.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference"),
+						},
+					},
+				},
+				Required: []string{"externalName", "externalID", "description", "clusterServiceBrokerName", "clusterServiceClassRef"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference", "k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceDescriptionStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServicePlanStatus represents status information about a ClusterServicePlan.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"removedFromBrokerCatalog": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RemovedFromBrokerCatalog indicates that the broker removed the plan from its catalog.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"removedFromBrokerCatalog"},
+			},
+		},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtension(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceExtension represents a tier of a ServiceClass.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Non-namespaced.  The name of this resource in etcd is in ObjectMeta.Name. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Spec defines the behavior of the service plan.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Status represents the current status of the service plan.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionStatus"),
+						},
+					},
+				},
+			},
+			VendorExtensible: spec.VendorExtensible{
+				Extensions: spec.Extensions{
+					"x-kubernetes-print-columns": "custom-columns=NAME:.metadata.name,EXTERNAL NAME:.spec.externalName,BROKER:.spec.clusterServiceBrokerName,CLASS:.spec.clusterServiceClassRef.name",
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionSpec", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtensionStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtensionList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceExtensionList is a list of ClusterServicePlans.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtension"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterServiceExtension", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtensionSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceExtensionSpec represents details that are shared by both a ClusterServicePlan and a namespaced ServicePlan",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"externalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalName is the name of this object that the Service Broker exposed this Service Plan as. Mutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalID is the identity of this object for use with the OSB API.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Description is a short description of this ServicePlan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalMetadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalMetadata is a blob of information about the plan, meant to be user-facing content and display instructions.  This field may contain platform-specific conventional values.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"acitonCreateParameterSchema": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Currently, this field is ALPHA: it may change or disappear at any time and its data will not be migrated.\n\nActionCreateParameterSchema is the schema for the parameters that may be supplied when provisioning a new ServiceInstance on this plan.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"actionUpdateParameterSchema": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Currently, this field is ALPHA: it may change or disappear at any time and its data will not be migrated.\n\nActionUpdateParameterSchema is the schema for the parameters that may be updated once an ServiceAction has been provisioned on this plan. This field only has meaning if the corresponding ServiceClassSpec is PlanUpdatable.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"defaultActionParameters": {
+						SchemaProps: spec.SchemaProps{
+							Description: "DefaultProvisionParameters are default parameters passed to the broker when an instance of this plan is provisioned. Any parameters defined on the instance are merged with these defaults, with instance-defined parameters taking precedence over defaults.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+				},
+				Required: []string{"externalName", "externalID", "description"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ClusterServiceExtensionStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ClusterServiceExtensionStatus represents status information about a ClusterServiceExtension.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"removedFromBrokerCatalog": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RemovedFromBrokerCatalog indicates that the broker removed the plan from its catalog.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"removedFromBrokerCatalog"},
+			},
+		},
+	}
+}
+
 func schema_pkg_apis_servicecatalog_v1beta1_ClusterServicePlan(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -1497,6 +1882,103 @@ func schema_pkg_apis_servicecatalog_v1beta1_CommonServiceClassStatus(ref common.
 	}
 }
 
+func schema_pkg_apis_servicecatalog_v1beta1_CommonServiceDescriptionSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "CommonServicePlanSpec represents details that are shared by both a ClusterServicePlan and a namespaced ServicePlan",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"externalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalName is the name of this object that the Service Broker exposed this Service Plan as. Mutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalID is the identity of this object for use with the OSB API.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"description": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Description is a short description of this ServicePlan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"externalMetadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ExternalMetadata is a blob of information about the plan, meant to be user-facing content and display instructions.  This field may contain platform-specific conventional values.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"instanceCreateParameterSchema": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Currently, this field is ALPHA: it may change or disappear at any time and its data will not be migrated.\n\nActionCreateParameterSchema is the schema for the parameters that may be supplied when exec an action on this plan.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"instanceUpdateParameterSchema": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Currently, this field is ALPHA: it may change or disappear at any time and its data will not be migrated.\n\nActionUpdateParameterSchema is the schema for the parameters that may be updated once an action has been provisioned on this plan. This field only has meaning if the corresponding ServiceClassSpec is PlanUpdatable.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+				},
+				Required: []string{"externalName", "externalID", "description"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_CommonServiceDescriptionStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "CommonServicePlanStatus represents status information about a ClusterServicePlan or a ServicePlan.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"removedFromBrokerCatalog": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RemovedFromBrokerCatalog indicates that the broker removed the plan from its catalog.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"removedFromBrokerCatalog"},
+			},
+		},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_CommonServiceExtensionStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "CommonServiceExtensionStatus represents status information about a ClusterServiceExtension.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"removedFromBrokerCatalog": {
+						SchemaProps: spec.SchemaProps{
+							Description: "RemovedFromBrokerCatalog indicates that the broker removed the plan from its catalog.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"removedFromBrokerCatalog"},
+			},
+		},
+	}
+}
+
 func schema_pkg_apis_servicecatalog_v1beta1_CommonServicePlanSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
 	return common.OpenAPIDefinition{
 		Schema: spec.Schema{
@@ -1877,6 +2359,375 @@ func schema_pkg_apis_servicecatalog_v1beta1_SecretTransform(ref common.Reference
 		},
 		Dependencies: []string{
 			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.AddKeyTransform", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.AddKeysFromTransform", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.RemoveKeyTransform", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.RenameKeyTransform"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ServiceAction(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ServiceAction represents an action to a provisioned instance of a ServiceClass. Currently, the spec field cannot be changed once a ServiceInstance is created.  Spec changes submitted by users will be ignored.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Description: "The name of this resource in etcd is in ObjectMeta.Name. More info: https://git.k8s.io/community/contributors/devel/api-conventions.md#metadata",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"),
+						},
+					},
+					"spec": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Spec defines the behavior of the service instance.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionSpec"),
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Status represents the current status of a service instance.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionStatus"),
+						},
+					},
+				},
+			},
+			VendorExtensible: spec.VendorExtensible{
+				Extensions: spec.Extensions{
+					"x-kubernetes-print-columns": "custom-columns=NAME:.metadata.name,URL:.spec.url",
+				},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionSpec", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionStatus", "k8s.io/apimachinery/pkg/apis/meta/v1.ObjectMeta"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ServiceActionCondition(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ServiceActionCondition condition information for a ServiceBinding.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"type": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Type of the condition, currently ('Ready').",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"status": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Status of the condition, one of ('True', 'False', 'Unknown').",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"lastTransitionTime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "LastTransitionTime is the timestamp corresponding to the last status change of this condition.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
+						},
+					},
+					"reason": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Reason is a brief machine readable explanation for the condition's last transition.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"message": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Message is a human readable description of the details of the last transition, complementing reason.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"type", "status", "lastTransitionTime", "reason", "message"},
+			},
+		},
+		Dependencies: []string{
+			"k8s.io/apimachinery/pkg/apis/meta/v1.Time"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ServiceActionList(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ServiceActionList is a list of ServiceAction.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"kind": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"apiVersion": {
+						SchemaProps: spec.SchemaProps{
+							Description: "APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"metadata": {
+						SchemaProps: spec.SchemaProps{
+							Ref: ref("k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"),
+						},
+					},
+					"items": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceAction"),
+									},
+								},
+							},
+						},
+					},
+				},
+				Required: []string{"items"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceAction", "k8s.io/apimachinery/pkg/apis/meta/v1.ListMeta"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ServiceActionSpec(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ServiceActionSpec represents the desired state of an Action.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"instanceRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "InstanceRef is the reference to the Instance this ServiceBinding is to.\n\nImmutable.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.LocalObjectReference"),
+						},
+					},
+					"clusterServiceClassExternalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServiceClassExternalName is the human-readable name of the service as reported by the ClusterServiceBroker. Note that if the ClusterServiceBroker changes the name of the ClusterServiceClass, it will not be reflected here, and to see the current name of the ClusterServiceClass, you should follow the ClusterServiceClassRef below.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServicePlanExternalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServicePlanExternalName is the human-readable name of the plan as reported by the ClusterServiceBroker. Note that if the ClusterServiceBroker changes the name of the ClusterServicePlan, it will not be reflected here, and to see the current name of the ClusterServicePlan, you should follow the ClusterServicePlanRef below.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServiceClassExternalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServiceClassExternalID is the ClusterServiceBroker's external id for the class.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServicePlanExternalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServicePlanExternalID is the ClusterServiceBroker's external id for the plan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServiceClassName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServiceClassName is the kubernetes name of the ClusterServiceClass.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServicePlanName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServicePlanName is kubernetes name of the ClusterServicePlan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"serviceClassExternalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServiceClassExternalName is the human-readable name of the service as reported by the ServiceBroker. Note that if the ServiceBroker changes the name of the ServiceClass, it will not be reflected here, and to see the current name of the ServiceClass, you should follow the ServiceClassRef below.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"servicePlanExternalName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServicePlanExternalName is the human-readable name of the plan as reported by the ServiceBroker. Note that if the ServiceBroker changes the name of the ServicePlan, it will not be reflected here, and to see the current name of the ServicePlan, you should follow the ServicePlanRef below.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"serviceClassExternalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServiceClassExternalID is the ServiceBroker's external id for the class.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"servicePlanExternalID": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServicePlanExternalID is the ServiceBroker's external id for the plan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"serviceClassName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServiceClassName is the kubernetes name of the ServiceClass.\n\nImmutable.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"servicePlanName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ServicePlanName is kubernetes name of the ServicePlan.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"clusterServiceClassRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServiceClassRef is a reference to the ClusterServiceClass that the user selected. This is set by the controller based on the cluster-scoped values specified in the PlanReference.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference"),
+						},
+					},
+					"clusterServicePlanRef": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ClusterServicePlanRef is a reference to the ClusterServicePlan that the user selected. This is set by the controller based on the cluster-scoped values specified in the PlanReference.",
+							Ref:         ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference"),
+						},
+					},
+					"parameters": {
+						SchemaProps: spec.SchemaProps{
+							Description: "Parameters is a set of the parameters to be passed to the underlying broker. The inline YAML/JSON payload to be translated into equivalent JSON object. If a top-level parameter name exists in multiples sources among `Parameters` and `ParametersFrom` fields, it is considered to be a user error in the specification.\n\nThe Parameters field is NOT secret or secured in any way and should NEVER be used to hold sensitive information. To set parameters that contain secret information, you should ALWAYS store that information in a Secret and use the ParametersFrom field.",
+							Ref:         ref("k8s.io/apimachinery/pkg/runtime.RawExtension"),
+						},
+					},
+					"parametersFrom": {
+						SchemaProps: spec.SchemaProps{
+							Description: "List of sources to populate parameters. If a top-level parameter name exists in multiples sources among `Parameters` and `ParametersFrom` fields, it is considered to be a user error in the specification.",
+							Type:        []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ParametersFromSource"),
+									},
+								},
+							},
+						},
+					},
+					"secretName": {
+						SchemaProps: spec.SchemaProps{
+							Description: "SecretName is the name of the secret to create in the ServiceAction's namespace that will hold the response associated with the ServiceAction.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"instanceRef"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ClusterObjectReference", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.LocalObjectReference", "github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ParametersFromSource", "k8s.io/apimachinery/pkg/runtime.RawExtension"},
+	}
+}
+
+func schema_pkg_apis_servicecatalog_v1beta1_ServiceActionStatus(ref common.ReferenceCallback) common.OpenAPIDefinition {
+	return common.OpenAPIDefinition{
+		Schema: spec.Schema{
+			SchemaProps: spec.SchemaProps{
+				Description: "ServiceActionStatus represents the current status of an Action.",
+				Type:        []string{"object"},
+				Properties: map[string]spec.Schema{
+					"conditions": {
+						SchemaProps: spec.SchemaProps{
+							Type: []string{"array"},
+							Items: &spec.SchemaOrArray{
+								Schema: &spec.Schema{
+									SchemaProps: spec.SchemaProps{
+										Ref: ref("github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionCondition"),
+									},
+								},
+							},
+						},
+					},
+					"asyncOpInProgress": {
+						SchemaProps: spec.SchemaProps{
+							Description: "AsyncOpInProgress is set to true if there is an ongoing async operation against this Service Instance in progress.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"orphanMitigationInProgress": {
+						SchemaProps: spec.SchemaProps{
+							Description: "OrphanMitigationInProgress is set to true if there is an ongoing orphan mitigation operation against this ServiceInstance in progress.",
+							Type:        []string{"boolean"},
+							Format:      "",
+						},
+					},
+					"lastOperation": {
+						SchemaProps: spec.SchemaProps{
+							Description: "LastOperation is the string that the broker may have returned when an async operation started, it should be sent back to the broker on poll requests as a query param.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"currentOperation": {
+						SchemaProps: spec.SchemaProps{
+							Description: "CurrentOperation is the operation the Controller is currently performing on the ServiceInstance.",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+					"observedGeneration": {
+						SchemaProps: spec.SchemaProps{
+							Description: "ObservedGeneration is the 'Generation' of the serviceInstanceSpec that was last processed by the controller. The observed generation is updated whenever the status is updated regardless of operation result.",
+							Type:        []string{"integer"},
+							Format:      "int64",
+						},
+					},
+					"operationStartTime": {
+						SchemaProps: spec.SchemaProps{
+							Description: "OperationStartTime is the time at which the current operation began.",
+							Ref:         ref("k8s.io/apimachinery/pkg/apis/meta/v1.Time"),
+						},
+					},
+					"lastConditionState": {
+						SchemaProps: spec.SchemaProps{
+							Description: "LastConditionState aggregates state from the Conditions array It is used for printing in a kubectl output via additionalPrinterColumns",
+							Type:        []string{"string"},
+							Format:      "",
+						},
+					},
+				},
+				Required: []string{"conditions", "asyncOpInProgress", "orphanMitigationInProgress", "observedGeneration", "lastConditionState"},
+			},
+		},
+		Dependencies: []string{
+			"github.com/kubernetes-sigs/service-catalog/pkg/apis/servicecatalog/v1beta1.ServiceActionCondition", "k8s.io/apimachinery/pkg/apis/meta/v1.Time"},
 	}
 }
 

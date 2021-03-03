@@ -22,7 +22,13 @@ type ClusterServiceBrokerExpansion interface{}
 
 type ClusterServiceClassExpansion interface{}
 
+type ClusterServiceDescriptionExpansion interface{}
+
+type ClusterServiceExtensionExpansion interface{}
+
 type ClusterServicePlanExpansion interface{}
+
+type ServiceActionExpansion interface{}
 
 type ServiceBindingExpansion interface{}
 
